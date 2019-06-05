@@ -5,6 +5,7 @@ $( document ).ready(function() {
 	let js_lenght = js.length;
 	console.log(js[0]);
 	console.log(js[0].fields);
+	
 
 
 
@@ -13,22 +14,28 @@ $( document ).ready(function() {
 			for(var key in js){
 				for(let i=0; i<js.length; i++){				
 					if(i==key){
-						for(var k in key){
-						console.log(js[i].fields);
-						console.log(k);
-							$('<div></div><br>', {
-								style: js[i].fields.data 
-							}).appendTo('#form');
-							$('<div style="display:inline-block"></div><br>', {
-							}).appendTo('div');
-								if(js[i].required==true){
-									
-								}
-						}
+						
+						for (var k in js[i].fields) {
+							var count = 0;
+							if(js[i].fields.hasOwnProperty(k)) count++;
+							console.log(count);
+							if(js[i].required == true){
+							var required='required';
+							}
+
+
+							$('<div class="'+k+'"></div><br>', {
+							}).appendTo('#ajax_form');
+							$('<input type="text" name="'+k+'" placeholder="'+k+'"'+required+'><p id="'+k+'"></p>', {
+							}).appendTo('.'+k+'');
+							var required = '';
+							}
 					}	
 				}
 				
 			}
+			$('<button type="submit" id="btn" value="Отправить">Отправить</button>', {
+			}).appendTo('#ajax_form');
 	
 			console.log(js.length);
 			
@@ -41,11 +48,6 @@ $( document ).ready(function() {
 					  // значение свойства – значение свойство value элемента
 					  $data[this.name] = $(this).val();
 					});
-			/*console.log($data);*/	
-			for (var key in $data) {
-				  /*console.log(key);*/
-				}
-			
 			sendAjaxForm('result_form', 'ajax_form', 'https://workspace.ru/ajax/test/test.php');
 			return false; 
 		}
