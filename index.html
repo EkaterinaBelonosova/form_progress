@@ -13,12 +13,16 @@
 </head>
 
 <body>
-</script>	 
+</script>	
+<form method="post" id="form" action="" >
+</form>
+
+ 
     <form method="post" id="ajax_form" action="" >
-        <input type="text" name="NAME" placeholder="NAME" /><br>
-		<input type="text" name="LAST_NAME" placeholder="LAST_NAME" /><br>
-        <input type="text" name="EMAIL" placeholder="YOUR EMAIL" /><br>
-		<input type="text" name="PHONE" placeholder="YOUR PHONE" /><br>
+        <div style="display:inline-block"><input type="text" name="NAME" placeholder="NAME" required><p id="NAME"></p></div><br>
+		<div style="display:inline-block"><input type="text" name="LAST_NAME" placeholder="LAST_NAME" /><p id="LAST_NAME"></p></div><br>
+        <div style="display:inline-block"><input type="text" name="EMAIL" placeholder="YOUR EMAIL" /><p id="EMAIL"></p></div><br>
+		<div style="display:inline-block"><input type="text" name="PHONE" placeholder="YOUR PHONE" /><p id="PHONE"></p></div><br>
         <input type="button" id="btn" value="Отправить" />
     </form>
 
