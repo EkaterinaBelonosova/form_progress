@@ -6,10 +6,13 @@
   <title>Article FRUCTCODE.COM. How to send html-form with Ajax.</title>
   <meta name="description" content="Article FRUCTCODE.COM. How to send ajax form.">
   <meta name="author" content="fructcode.com">
-
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="jquery.maskedinput.js"></script>
-  <script src="ajax.js"></script>
+
+
+  <script src="main.js"></script>
+
 
 </head>
 <style>
@@ -40,13 +43,27 @@
  .error{
  border: 3px solid red;
  }
+ .progress-wrap {
+  text-align: center;
+  font-size: 10px;
+  color: white;
+  margin: 0 0 20px 0;
+ }
+  .container{
+    background-image: url(img/depositphotos_70823571-stock-illustration-cute-morning-seamless-pattern.jpg);
+  }
+  .container h1{
+     
+  }
 </style>
 <body>
 </script>	
-<form method="post" id="ajax_form" action="" >
-</form>
-
- 
+<div class="container">
+    <div class="progress-wrap">
+        <progress max="100" value="0" id="progress"></progress>
+    </div>
+    <h1>Форма с прогресс баром</h1>
+    <form method="post" id="ajax_form" action="" ></form>
     <!--<form method="post" id="ajax_form" action="" >
         <div style="display:inline-block"><input type="text" name="NAME" placeholder="NAME" required><p id="NAME"></p></div><br>
 		<div style="display:inline-block"><input type="text" name="LAST_NAME" placeholder="LAST_NAME" /><p id="LAST_NAME"></p></div><br>
@@ -54,9 +71,9 @@
 		<div style="display:inline-block"><input type="text" name="PHONE" placeholder="YOUR PHONE" /><p id="PHONE"></p></div><br>
         <input type="button" id="btn" value="Отправить" />
     </form>-->
-
     <br>
-
     <div id="result_form"></div> 
+    <a href="myproto:////nas/garbage">открыть папку</a>
+</div>
 </body>
 </html>
