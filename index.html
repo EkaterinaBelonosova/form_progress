@@ -16,6 +16,39 @@
 
 </head>
 <style>
+fieldset:first-child {
+    display: inline;
+    margin-right: 50px;
+}
+fieldset:nth-child(2) {
+    display: inline;
+}
+fieldset {
+    display: table-cell;
+    white-space: nowrap;
+}
+input{
+    background-color: #e7e9e9;
+    height: 41px;
+    border: none;
+    font-size: 12px;
+    width: 100%;
+
+}
+input::placeholder {
+  padding:5%;
+}
+input::name[TEXT]{
+    height: 82px;
+}
+body{
+    color: #ffffff;
+}
+h7{
+    color:#000;
+    font-weight: bold;
+    font-size: 13px;
+}
     .formError {
     position: absolute;
     /* top: 10px; */
@@ -43,27 +76,99 @@
  .error{
  border: 3px solid red;
  }
- .progress-wrap {
-  text-align: center;
-  font-size: 10px;
-  color: white;
-  margin: 0 0 20px 0;
- }
+
+ progress {
+/* Отключаем стиль (как правило, не требуется, но на всякий случай)  */
+appearance: none;
+-moz-appearance: none;
+-webkit-appearance: none;
+/* Убираем границы по умолчанию в Firefox и Opera */
+border: none;
+/* Чтобы фоновое изображение в Safari работало, как надо */
+background-size: auto;
+}
+/* Firefox  */
+progress {
+background: #fac;
+}
+/* Chrome */
+progress::-webkit-progress-bar {
+background: #fac;
+}
+/* IE10 */
+progress {
+color: #e0a;
+}
+/* Firefox */
+progress::-moz-progress-bar {
+background: #e0a;
+}
+/* Chrome */
+progress::-webkit-progress-value {
+background: #e0a;
+}
+.progress-wrap{
+    width: 40%;
+}
+.progress-wrap progress {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        margin-top: 10px;
+        background: #eee;
+        border: 0;
+        width: 100%;
+        height: 15px;
+        border-radius: 9px;
+        color: #9c3;
+    }
+    .progress-wrap progress::-webkit-progress-bar {
+        background: #eeeeee;
+        border-radius: 9px;
+    }
+    .progress-wrap progress::-webkit-progress-value {
+        background: #cf9;
+        background: -moz-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cf9), color-stop(100%,#9c3));
+        background: -webkit-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -o-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -ms-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: linear-gradient(to bottom, #cf9 0%, #9c3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf9', endColorstr='#9c3', GradientType=0);
+        border-radius: 9px;
+    }
+    .progress-wrap progress::-moz-progress-bar {
+        background: #cf9;
+        background: -moz-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cf9), color-stop(100%,#9c3));
+        background: -webkit-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -o-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: -ms-linear-gradient(top, #cf9 0%, #9c3 100%);
+        background: linear-gradient(to bottom, #cf9 0%, #9c3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cf9', endColorstr='#9c3', GradientType=0);
+        border-radius: 9px;
+    }
+
   .container{
     background-image: url(img/depositphotos_70823571-stock-illustration-cute-morning-seamless-pattern.jpg);
   }
-  .container h1{
-     
+  .rootForm{
+      background-color: #fff;
+  }
+  .container-form{
+      padding: 6%;
   }
 </style>
 <body>
 </script>	
 <div class="container">
     <div class="progress-wrap">
+        <p>Форма заполнена на <span id="value"></span></p>
         <progress max="100" value="0" id="progress"></progress>
     </div>
     <h1>Форма с прогресс баром</h1>
-    <form method="post" id="ajax_form" action="" ></form>
+    <form method="post" id="ajax_form" action="" class="rootForm"></form>
     <!--<form method="post" id="ajax_form" action="" >
         <div style="display:inline-block"><input type="text" name="NAME" placeholder="NAME" required><p id="NAME"></p></div><br>
 		<div style="display:inline-block"><input type="text" name="LAST_NAME" placeholder="LAST_NAME" /><p id="LAST_NAME"></p></div><br>
@@ -73,7 +178,6 @@
     </form>-->
     <br>
     <div id="result_form"></div> 
-    <a href="myproto:////nas/garbage">открыть папку</a>
 </div>
 </body>
 </html>

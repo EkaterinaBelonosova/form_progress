@@ -3,36 +3,59 @@
 $( document ).ready(function() {
 	var resp = '[{"required":true,"fields":{"NAME":false}},{"required":false,"fields":{"LAST_NAME":true}},{"required":true,"fields":{"EMAIL":false,"PHONE":false}},{"required":false,"fields":{"TYPE":false}},{"required":false,"fields":{"TEXT":false}}]';
 	var jsonArray = JSON.parse(resp);
+	var rootForm = $('<div class="container-form"></div>');
 	for (var i in jsonArray) {
 		var jsonObj = jsonArray[i];
-		var fieldSet = $('<fieldset></fieldset>');
+		var fieldSet = $('<fieldset></fieldset>');		
 		if (jsonObj.required == true) {
 			fieldSet.attr("required","required")					
 		}
 		var fields = jsonObj.fields;
 		for (var key in fields) {
 			var required = fields[key] == true;
-			var rootInput = $('<div></div>');
+			var rootInput = $('<div style="margin-top: 7px;margin-bottom: 25px;"></div>');
+			var h7 = $('<h7 id="h7'+key+'"></h7>');
 			var divError = $('<div class="formError" id="'+ key +'"></div>');
-			var inputField = $('<input type="text" name="'+ key + '" placeholder="' + key + '">');
+			var inputField = $('<input type="text" name="'+ key + '" placeholder="' + key + '" class="' + key + '">');
 			if (required == true) {
 				inputField.attr("required","required");
 			}
 			var pError =$('<p id="' + key + '"></p>');
+			h7.appendTo(fieldSet);
 			divError.appendTo(rootInput);
 			inputField.appendTo(rootInput);
 			pError.appendTo(rootInput);
 			rootInput.appendTo(fieldSet);
 		}
-		fieldSet.appendTo('#ajax_form');
+		fieldSet.appendTo(rootForm);
 
 	}
-	$('<button type="button" id="btn" value="Отправить">Отправить</button>').appendTo('#ajax_form');
-	$('input[name="EMAIL"]').on('input', validateEmail);
-	$('input[name="NAME"]').on('input', validateName);
-	$('input[name="LAST_NAME"]').on('input', validateName);
-	$('input[name="PHONE"]').on('input', validatePhone);
-	$('input[name="TEXT"]').on('input', validateText);
+	
+	setTimeout(function () {
+		var divWidth = $("div.container-form").width();
+		var inputName = $("input[name=NAME]");
+		var inputLastName = $("input[name=LAST_NAME]");
+		var widthInput = (divWidth-50)/2;
+		inputName.css('width', widthInput+'px');
+		inputLastName.css('width', widthInput+'px');
+		console.log('длина'+widthInput);
+		$("#h7NAME").text("Как вас зовут*");
+		$("#h7EMAIL").text("Электронная почта");
+		$("#h7PHONE").text("Телефон");
+		$("#h7TYPE").text("Чем вы собираетесь заниматься на нашем сайте");
+		$("#h7TEXT").text("О себе");
+
+	},100);
+	
+
+	
+	$('<button type="button" id="btn" value="Отправить">Отправить</button>').appendTo(rootForm);
+	rootForm.appendTo('#ajax_form');
+	$('input[name="EMAIL"]').on('change keyup', validateEmail);
+	$('input[name="NAME"]').on('change keyup', validateName);
+	$('input[name="LAST_NAME"]').on('change keyup', validateName);
+	$('input[name="PHONE"]').on('change keyup', validatePhone);
+	$('input[name="TEXT"]').on('change keyup', validateText);
 
 			
     $("#btn").click(	 
@@ -42,17 +65,34 @@ $( document ).ready(function() {
 		}
 		
 	);
+
+	$("#ajax_form").delegate("input", "change keyup", calcProgress);
+
 });
+
+function getWidth(){
+	var divWidth = $("div.container-form").width();
+	var inputName = $("input[name=NAME]");
+	var widthInput = divWidth/2;
+	inputName.css('width', widthInput+'px');
+	console.log(widthInput);
+}
+
+function calcProgress() {
+	var allInput = $("#ajax_form").find("input");
+	var validInput = $("#ajax_form").find("input.ok");
+	var progress = (validInput.length/allInput.length*100).toFixed(0);
+	$("#progress").attr("value", progress);
+	$("#value").html(progress + '%');
+	
+}
 
 function validateText(e) {
 	var inputText = $(e.currentTarget);
 	var rootDiv = inputText.parent();
 	var divError = rootDiv.children('.formError');
-	inputText.attr("maxLength","500");
-	inputText.attr("minLength","3");
 	var InputTextVal = $(inputText).val();
 	var InputTextLenght = InputTextVal.length;
-	console.log(InputTextLenght);
 		if (InputTextLenght > 500 || InputTextLenght < 3){
 			divError.text('Количество знаков должно быть в переделе от 3 до 500');
 			inputText.removeClass('ok').addClass('error');
@@ -62,18 +102,15 @@ function validateText(e) {
 			divError.css('display','none');
 		}
 }  
+
 function validatePhone(e) {
 	var inputPhone = $(e.currentTarget);
 	var rootDiv = inputPhone.parent();
 	var divError = rootDiv.children('.formError');
-	inputPhone.attr("maxLength","14");
-	inputPhone.attr("minLength","10");
 	var InputPhoneVal = $(inputPhone).val();
 	var InputPhoneLenght = InputPhoneVal.length;
-	console.log(InputPhoneLenght);
 		if (InputPhoneVal.match(/[^0-9]/g, '')) {
-			inputPhone[0].value = InputPhoneVal.replace(/[^0-9]/g, '');
-			console.log('4'+InputPhoneVal);
+			inputPhone.val(InputPhoneVal.replace(/[^0-9]/g, ''));
 			divError.text('Используйте только цифровые знаки');
 			inputPhone.removeClass('ok').addClass('error');
 			divError.css('display','block');
@@ -89,16 +126,15 @@ function validatePhone(e) {
 		}
     
 }  
+
 function validateName(e) {
-	var progress = $("#progress").attr("value");
-	console.log(progress);
 	var inputName = $(e.currentTarget);
 	var rootDiv = inputName.parent();
 	var divError = rootDiv.children('.formError');
-	var InputNameVal = $(inputName).val();
+	var inputNameVal = $(inputName).val();
 	inputName.attr("maxLength","50");
-		if (InputNameVal.match(/[^а-яА-Я\s]/g, '')) {
-			inputName[0].value = InputNameVal.replace(/[^а-яА-Я\s]/g, '');
+		if (inputNameVal.match(/[^а-яА-Я\s]/g, '') || inputNameVal.length == 0) {
+			inputName.val(inputNameVal.replace(/[^а-яА-Я\s]/g, ''));
 			divError.text('Используйте только русские буквы и пробелы');
 			inputName.removeClass('ok').addClass('error');
 			divError.css('display','block');
@@ -109,26 +145,10 @@ function validateName(e) {
 		if (inputName.val().length == 50) {
 			divError.text('Количество разрешенных знаков равно 50');
 			divError.css('display','block');
-			function closeDiv (){
+			setTimeout(function() {
 				divError.css('display','none');
-			}
-			setTimeout(closeDiv, 3000);
+			}, 3000);
 		}
-		if (InputNameVal.length > 0) {
-			var progressPercent = 17.4;
-			console.log('progressPercent' + progressPercent);
-			$("#progress").attr("value",progressPercent) 
-		}
-	/*if(nameInput=="TEXT"){
-				$(input[i]).prop({ maxLength : 500 },{ minLength : 3});
-			}
-
-			$('input[name="PHONE"]').mask("89999999999");
-		
-		};
-		
-	}*/
-
 } 
 
 function validateEmail(e) {
@@ -136,7 +156,6 @@ function validateEmail(e) {
 	var inputEmail = $(e.currentTarget);
 	var rootDiv = inputEmail.parent();
 	var divError = rootDiv.children('.formError');
-	console.log(inputEmail);
 	if (inputEmail.val().search(pattern) == 0) {
 		inputEmail.removeClass('error').addClass('ok');
 		divError.css('display','none');
