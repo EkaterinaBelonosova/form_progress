@@ -171,6 +171,7 @@ background: #e0a;
   .nopad {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
+  display: inline-block;
 }
 /*image gallery*/
 .image-checkbox {
@@ -178,7 +179,7 @@ background: #e0a;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	border: 4px solid transparent;
+  border: 1px solid #e7e9e9;
 	margin-bottom: 0;
 	outline: 0;
 }
@@ -187,7 +188,6 @@ background: #e0a;
 }
 
 .image-checkbox-checked {
-	border-color: #4783B0;
     background-color: #1abde8;
 }
 .image-checkbox .fa {
@@ -219,45 +219,8 @@ background: #e0a;
         <input type="button" id="btn" value="Отправить" />
     </form>-->
     <br> 
-    <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
-        <label class="image-checkbox">
-            <div>
-          <img class="img-responsive" src="img/2.png" />
-          <input type="checkbox" name="image[]" value="" />
-          <i class="fa fa-check hidden"></i>
-        </div>
-        </label>
-      </div>
-      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
-        <label class="image-checkbox">
-          <img class="img-responsive" src="img/2.png" />
-          <input type="checkbox" name="image[]" value="" />
-          <i class="fa fa-check hidden"></i>
-        </label>
-      </div>
-      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
-        <label class="image-checkbox">
-          <img class="img-responsive" src="img/2.png" />
-          <input type="checkbox" name="image[]" value="" />
-          <i class="fa fa-check hidden"></i>
-        </label>
-      </div>
-      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
-        <label class="image-checkbox">
-          <img class="img-responsive" src="img/2.png" />
-          <input type="checkbox" name="image[]" value="" />
-          <i class="fa fa-check hidden"></i>
-        </label>
-      </div>
-      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
-        <label class="image-checkbox">
-          <img class="img-responsive" src="img/2.png" />
-          <input type="checkbox" name="image[]" value="" />
-          <i class="fa fa-check hidden"></i>
-        </label>
-      </div>
     <div id="result_form"></div> 
-    <a href="file:////nas/garbage/Информационные ресурсы/Материалы обучения/Книги/Маркетинг/Alexandr_Vem_-_Imidzh_-_put_k_uspekhu.fb2" target="_blank">Link to test data</a>
+    <input type="checkbox" id="something" />
 </div>
 
 </body>

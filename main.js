@@ -1,6 +1,70 @@
 /* Article FructCode.com */
 
 $( document ).ready(function() {
+	var resp = '[{"required":true,"fields":{"NAME":false}},{"required":false,"fields":{"LAST_NAME":true}},{"required":true,"fields":{"EMAIL":false,"PHONE":false}},{"required":false,"fields":{"TYPE":false}},{"required":false,"fields":{"TEXT":false}}]';
+	var jsonArray = JSON.parse(resp);
+	var rootForm = $('<div class="container-form"></div>');
+	for (var i in jsonArray) {
+		var jsonObj = jsonArray[i];
+		var fieldSet = $('<fieldset></fieldset>');		
+		if (jsonObj.required == true) {
+			fieldSet.attr("required","required")					
+		}
+		var fields = jsonObj.fields;
+		for (var key in fields) {
+			var required = fields[key] == true;
+			var rootInput = $('<div style="margin-top: 7px;margin-bottom: 25px;"></div>');
+			var h7 = $('<h7 id="h7'+key+'"></h7>');
+			var divError = $('<div class="formError" id="'+ key +'"></div>');
+			if(key=="TYPE") {
+				var imgType = [];
+				for (var i=1; i<6; i++){
+					imgType.push($('<div class="nopad text-center"><label class="image-checkbox"><img class="img-responsive" src="img/'+
+					i+'.png"><input type="checkbox" name="TYPE" value="'+i+'"></input><i class="fa fa-check hidden">'+
+					'</i></label></div>'));
+				}
+			} else {
+				var inputField = $('<input type="text" name="'+ key + '" placeholder="' + key + '" class="' + key + '">');
+			}
+			if (required == true) {
+				inputField.attr("required","required");
+			}
+			var pError =$('<p id="' + key + '"></p>');
+			h7.appendTo(fieldSet);
+			divError.appendTo(fieldSet);			
+			pError.appendTo(rootInput);
+			rootInput.appendTo(fieldSet);
+			if(key=="TYPE") {
+				for(var i=0; i<imgType.length; i++){					
+					imgType[i].appendTo(rootInput);					
+				}		
+			} else {
+				inputField.appendTo(rootInput);
+			}			
+		}
+		fieldSet.appendTo(rootForm);
+
+	}
+	$('<hr><button type="button" id="btn" class="but" value="Отправить">Отправить</button>').appendTo(rootForm);
+	rootForm.appendTo('#ajax_form');
+
+	setTimeout(function () {
+		var divWidth = $("div.container-form").width();
+		var inputName = $("input[name=NAME]");
+		var inputLastName = $("input[name=LAST_NAME]");
+		var widthInput = (divWidth-50)/2;
+		inputName.css('width', widthInput+'px');
+		inputLastName.css('width', widthInput+'px');
+		var widthimgType = divWidth/($('.nopad').length).toFixed(0);
+		$('.img-responsive').css('width', widthimgType+'px')
+		$("#h7NAME").text("Как вас зовут*");
+		$("#h7EMAIL").text("Электронная почта");
+		$("#h7PHONE").text("Телефон");
+		$("#h7TYPE").text("Чем вы собираетесь заниматься на нашем сайте");
+		$("#h7TEXT").text("О себе");
+
+	},100);
+	
 	$(".image-checkbox").each(function () {
 		if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
 		  $(this).addClass('image-checkbox-checked');
@@ -18,63 +82,14 @@ $( document ).ready(function() {
 	  
 		e.preventDefault();
 	  });
-	var resp = '[{"required":true,"fields":{"NAME":false}},{"required":false,"fields":{"LAST_NAME":true}},{"required":true,"fields":{"EMAIL":false,"PHONE":false}},{"required":false,"fields":{"TYPE":false}},{"required":false,"fields":{"TEXT":false}}]';
-	var jsonArray = JSON.parse(resp);
-	var rootForm = $('<div class="container-form"></div>');
-	for (var i in jsonArray) {
-		var jsonObj = jsonArray[i];
-		var fieldSet = $('<fieldset></fieldset>');		
-		if (jsonObj.required == true) {
-			fieldSet.attr("required","required")					
-		}
-		var fields = jsonObj.fields;
-		for (var key in fields) {
-			var required = fields[key] == true;
-			var rootInput = $('<div style="margin-top: 7px;margin-bottom: 25px;"></div>');
-			var h7 = $('<h7 id="h7'+key+'"></h7>');
-			var divError = $('<div class="formError" id="'+ key +'"></div>');
-			var inputField = $('<input type="text" name="'+ key + '" placeholder="' + key + '" class="' + key + '">');
-			if (required == true) {
-				inputField.attr("required","required");
-			}
-			var pError =$('<p id="' + key + '"></p>');
-			h7.appendTo(fieldSet);
-			divError.appendTo(fieldSet);
-			inputField.appendTo(rootInput);
-			pError.appendTo(rootInput);
-			rootInput.appendTo(fieldSet);
-		}
-		fieldSet.appendTo(rootForm);
 
-	}
-	
-	setTimeout(function () {
-		var divWidth = $("div.container-form").width();
-		var inputName = $("input[name=NAME]");
-		var inputLastName = $("input[name=LAST_NAME]");
-		var widthInput = (divWidth-50)/2;
-		inputName.css('width', widthInput+'px');
-		inputLastName.css('width', widthInput+'px');
-		console.log('длина'+widthInput);
-		$("#h7NAME").text("Как вас зовут*");
-		$("#h7EMAIL").text("Электронная почта");
-		$("#h7PHONE").text("Телефон");
-		$("#h7TYPE").text("Чем вы собираетесь заниматься на нашем сайте");
-		$("#h7TEXT").text("О себе");
-
-	},100);
-	
-
-	
-	$('<hr><button type="button" id="btn" class="but" value="Отправить">Отправить</button>').appendTo(rootForm);
-	rootForm.appendTo('#ajax_form');
 	$('input[name="EMAIL"]').on('change keyup', validateEmail);
 	$('input[name="NAME"]').on('change keyup', validateName);
 	$('input[name="LAST_NAME"]').on('change keyup', validateName);
 	$('input[name="PHONE"]').on('change keyup', validatePhone);
 	$('input[name="TEXT"]').on('change keyup', validateText);
-
-			
+	$('input[type="checkbox"]').on('checked click', validateType);
+		
     $("#btn").click(	 
 		function(){
 			sendAjaxForm('result_form', 'ajax_form', 'https://workspace.ru/ajax/test/test.php');
@@ -87,7 +102,14 @@ $( document ).ready(function() {
 
 });
 
-function getWidth(){
+function validateType (e) {
+	var inputType = $(e);
+	console.log(e);
+	console.log(inputType + 'rggr');
+
+}
+
+function getWidth() {
 	var divWidth = $("div.container-form").width();
 	var inputName = $("input[name=NAME]");
 	var widthInput = divWidth/2;
