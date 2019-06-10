@@ -1,6 +1,23 @@
 /* Article FructCode.com */
 
 $( document ).ready(function() {
+	$(".image-checkbox").each(function () {
+		if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
+		  $(this).addClass('image-checkbox-checked');
+		}
+		else {
+		  $(this).removeClass('image-checkbox-checked');
+		}
+	  });
+	  
+	  // sync the state to the input
+	  $(".image-checkbox").on("click", function (e) {
+		$(this).toggleClass('image-checkbox-checked');
+		var $checkbox = $(this).find('input[type="checkbox"]');
+		$checkbox.prop("checked",!$checkbox.prop("checked"))
+	  
+		e.preventDefault();
+	  });
 	var resp = '[{"required":true,"fields":{"NAME":false}},{"required":false,"fields":{"LAST_NAME":true}},{"required":true,"fields":{"EMAIL":false,"PHONE":false}},{"required":false,"fields":{"TYPE":false}},{"required":false,"fields":{"TEXT":false}}]';
 	var jsonArray = JSON.parse(resp);
 	var rootForm = $('<div class="container-form"></div>');
@@ -22,7 +39,7 @@ $( document ).ready(function() {
 			}
 			var pError =$('<p id="' + key + '"></p>');
 			h7.appendTo(fieldSet);
-			divError.appendTo(rootInput);
+			divError.appendTo(fieldSet);
 			inputField.appendTo(rootInput);
 			pError.appendTo(rootInput);
 			rootInput.appendTo(fieldSet);
@@ -49,7 +66,7 @@ $( document ).ready(function() {
 	
 
 	
-	$('<button type="button" id="btn" value="Отправить">Отправить</button>').appendTo(rootForm);
+	$('<hr><button type="button" id="btn" class="but" value="Отправить">Отправить</button>').appendTo(rootForm);
 	rootForm.appendTo('#ajax_form');
 	$('input[name="EMAIL"]').on('change keyup', validateEmail);
 	$('input[name="NAME"]').on('change keyup', validateName);
@@ -89,14 +106,14 @@ function calcProgress() {
 
 function validateText(e) {
 	var inputText = $(e.currentTarget);
-	var rootDiv = inputText.parent();
+	var rootDiv = inputText.parent().parent();
 	var divError = rootDiv.children('.formError');
 	var InputTextVal = $(inputText).val();
 	var InputTextLenght = InputTextVal.length;
 		if (InputTextLenght > 500 || InputTextLenght < 3){
 			divError.text('Количество знаков должно быть в переделе от 3 до 500');
 			inputText.removeClass('ok').addClass('error');
-			divError.css('display','block');
+			divError.css('display','inline-block');
 		} else {
 			inputText.removeClass('error').addClass('ok');
 			divError.css('display','none');
@@ -105,15 +122,15 @@ function validateText(e) {
 
 function validatePhone(e) {
 	var inputPhone = $(e.currentTarget);
-	var rootDiv = inputPhone.parent();
-	var divError = rootDiv.children('.formError');
+	var rootDiv = inputPhone.parent().parent();
+	var divError = rootDiv.children('#PHONE');
 	var InputPhoneVal = $(inputPhone).val();
 	var InputPhoneLenght = InputPhoneVal.length;
 		if (InputPhoneVal.match(/[^0-9]/g, '')) {
 			inputPhone.val(InputPhoneVal.replace(/[^0-9]/g, ''));
 			divError.text('Используйте только цифровые знаки');
 			inputPhone.removeClass('ok').addClass('error');
-			divError.css('display','block');
+			divError.css('display','inline-block');
 		} else {
 			inputPhone.removeClass('error').addClass('ok');
 			divError.css('display','none');
@@ -122,14 +139,14 @@ function validatePhone(e) {
 		if (InputPhoneLenght > 14 || InputPhoneLenght < 9){
 			divError.text('Количество знаков должно быть в переделе от 10 до 14');
 			inputPhone.removeClass('ok').addClass('error');
-			divError.css('display','block');
+			divError.css('display','inline-block');
 		}
     
 }  
 
 function validateName(e) {
 	var inputName = $(e.currentTarget);
-	var rootDiv = inputName.parent();
+	var rootDiv = inputName.parent().parent();
 	var divError = rootDiv.children('.formError');
 	var inputNameVal = $(inputName).val();
 	inputName.attr("maxLength","50");
@@ -137,14 +154,14 @@ function validateName(e) {
 			inputName.val(inputNameVal.replace(/[^а-яА-Я\s]/g, ''));
 			divError.text('Используйте только русские буквы и пробелы');
 			inputName.removeClass('ok').addClass('error');
-			divError.css('display','block');
+			divError.css('display','inline-block');
 		} else {
 			inputName.removeClass('error').addClass('ok');
 			divError.css('display','none');
 		}
 		if (inputName.val().length == 50) {
 			divError.text('Количество разрешенных знаков равно 50');
-			divError.css('display','block');
+			divError.css('display','inline-block');
 			setTimeout(function() {
 				divError.css('display','none');
 			}, 3000);
@@ -154,15 +171,15 @@ function validateName(e) {
 function validateEmail(e) {
 	var pattern = /^[a-z0-9_-]+@[a-z0-9-]+\.([a-z]\.)?[a-z]{2,6}$/i;
 	var inputEmail = $(e.currentTarget);
-	var rootDiv = inputEmail.parent();
-	var divError = rootDiv.children('.formError');
+	var rootDiv = inputEmail.parent().parent();
+	var divError = rootDiv.children('#EMAIL');
 	if (inputEmail.val().search(pattern) == 0) {
 		inputEmail.removeClass('error').addClass('ok');
 		divError.css('display','none');
 	} else {
 		inputEmail.removeClass('ok').addClass('error');
-		divError.text('Не подходит');
-		divError.css('display','block');
+		divError.text('example@example.ru');
+		divError.css('display','inline-block');
 	}	
 }  
 
@@ -181,7 +198,7 @@ function sendAjaxForm(result_form, ajax_form, url) {
 				if(key == "message"){
 					$('#result_form').html('Ответ '+result.data[key]);
 				}else{
-					$('p[id="'+key+'"]').html('Ответ '+result.data[key]);
+					$('div[id="'+key+'"]').html(result.data[key]);
 				}
 			}
 			

@@ -49,25 +49,33 @@ h7{
     font-weight: bold;
     font-size: 13px;
 }
-    .formError {
+.formError {
     position: absolute;
-    /* top: 10px; */
-    left: 150px;
-    width: 150px;
     padding-bottom: 15px;
     display: none;
     z-index: 5000;
-    background: #000;
+    background: #e06262;
     color: #fff;
     font-family: tahoma;
     font-size: 10px;
-    box-shadow: 1px 1px 6px #000;
     -moz-box-shadow: 1px 1px 6px #000;
-    -webkit-box-shadow: 1px 1px 6px #000;
-    padding: 4px 10px 4px 10px;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    padding: 8px 10px 4px 10px;
+    margin-left: 15px;
+
+
+}
+.but{
+    color: #fbfbfb;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 6px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+    background-color: #01b7e6;
+
 }
 
 .ok{
@@ -151,7 +159,7 @@ background: #e0a;
     }
 
   .container{
-    background-image: url(img/depositphotos_70823571-stock-illustration-cute-morning-seamless-pattern.jpg);
+    background-image: url(img/_98292-5225.jpg);
   }
   .rootForm{
       background-color: #fff;
@@ -159,15 +167,49 @@ background: #e0a;
   .container-form{
       padding: 6%;
   }
+  
+  .nopad {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+/*image gallery*/
+.image-checkbox {
+	cursor: pointer;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border: 4px solid transparent;
+	margin-bottom: 0;
+	outline: 0;
+}
+.image-checkbox input[type="checkbox"] {
+	display: none;
+}
+
+.image-checkbox-checked {
+	border-color: #4783B0;
+    background-color: #1abde8;
+}
+.image-checkbox .fa {
+  position: absolute;
+  color: #4A79A3;
+  background-color: #fff;
+  padding: 10px;
+  top: 0;
+  right: 0;
+}
+.image-checkbox-checked .fa {
+  display: block !important;
+}
 </style>
 <body>
 </script>	
 <div class="container">
     <div class="progress-wrap">
-        <p>Форма заполнена на <span id="value"></span></p>
+        <p style="margin-bottom: 0px;">Форма заполнена на <span id="value"></span></p>
         <progress max="100" value="0" id="progress"></progress>
     </div>
-    <h1>Форма с прогресс баром</h1>
+    <h1 style="margin-top: 20px;margin-bottom: 50px;">Форма с прогресс баром</h1>
     <form method="post" id="ajax_form" action="" class="rootForm"></form>
     <!--<form method="post" id="ajax_form" action="" >
         <div style="display:inline-block"><input type="text" name="NAME" placeholder="NAME" required><p id="NAME"></p></div><br>
@@ -176,8 +218,47 @@ background: #e0a;
 		<div style="display:inline-block"><input type="text" name="PHONE" placeholder="YOUR PHONE" /><p id="PHONE"></p></div><br>
         <input type="button" id="btn" value="Отправить" />
     </form>-->
-    <br>
+    <br> 
+    <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
+        <label class="image-checkbox">
+            <div>
+          <img class="img-responsive" src="img/2.png" />
+          <input type="checkbox" name="image[]" value="" />
+          <i class="fa fa-check hidden"></i>
+        </div>
+        </label>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
+        <label class="image-checkbox">
+          <img class="img-responsive" src="img/2.png" />
+          <input type="checkbox" name="image[]" value="" />
+          <i class="fa fa-check hidden"></i>
+        </label>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
+        <label class="image-checkbox">
+          <img class="img-responsive" src="img/2.png" />
+          <input type="checkbox" name="image[]" value="" />
+          <i class="fa fa-check hidden"></i>
+        </label>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
+        <label class="image-checkbox">
+          <img class="img-responsive" src="img/2.png" />
+          <input type="checkbox" name="image[]" value="" />
+          <i class="fa fa-check hidden"></i>
+        </label>
+      </div>
+      <div class="col-xs-4 col-sm-3 col-md-2 nopad text-center">
+        <label class="image-checkbox">
+          <img class="img-responsive" src="img/2.png" />
+          <input type="checkbox" name="image[]" value="" />
+          <i class="fa fa-check hidden"></i>
+        </label>
+      </div>
     <div id="result_form"></div> 
+    <a href="file:////nas/garbage/Информационные ресурсы/Материалы обучения/Книги/Маркетинг/Alexandr_Vem_-_Imidzh_-_put_k_uspekhu.fb2" target="_blank">Link to test data</a>
 </div>
+
 </body>
 </html>
